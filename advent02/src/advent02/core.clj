@@ -19,9 +19,14 @@
       2 (operation (assoc ops (get ops p3) (* v1 v2)) (+ 4 n))
       )))
 
+(defn part2
+ "First result of operation"
+ [ops noun verb]
+ (first (operation (assoc ops 1 noun 2 verb) 0)))
+
 (defn -main
   "Advent 2019 problem 2"
   [& args]
   (let [noun (Integer/valueOf (first args))
         verb (Integer/valueOf (second args))]
-  (print (operation (assoc (parse (slurp "input")) 1 noun 2 verb) 0))))
+  (-> "input" slurp parse (part2 noun verb) print)))
