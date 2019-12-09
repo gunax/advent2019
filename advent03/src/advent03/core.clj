@@ -5,29 +5,29 @@
 
 (defn add_to_point
   "add an origin to list of points"
-  [o points]
-  (let [add (fn [o p] `(~(+ (first o) (first p)) ~(+ (second o) (second p))))]
+  [o dist points]
+  (let [add (fn [o d p] `(~(+ (first o) (first p)) ~(+ (second o) (second p))))]
     (map (partial add o) points)))
 
 (defn base
   "return list of points moving up from origin"
   [len]
   (for [y (range (+ 1 len))]
-          `(~0 ~y)))
+          `(~0 ~y ~y)))
 
 (defn negy
   [p]
-  (let [[x y] p]
-    `(~x ~(- y))))
+  (let [[x y d] p]
+    `(~x ~(- y) ~d)))
 
 (defn transpose
   [p]
-  (let [[x y] p]
-    `(~y ~x)))
+  (let [[x y d] p]
+    `(~y ~x ~d)))
 
 (defn up
-  [o len]
-  (->> len base (add_to_point o)))
+  [o len start]
+  (->> len base (add_to_point o start)))
 
 (defn right
   [o len]
@@ -42,6 +42,7 @@
   (->> len base (#(map negy %)) (#(map transpose %)) (add_to_point o)))
 
 (comment
+  (base 3)
   (up '(1 1) 5)
   (down '(-2 -2) 5)
   (right '(2 2) 5)
